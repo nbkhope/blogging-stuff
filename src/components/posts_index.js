@@ -1,5 +1,27 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { fetchPosts } from '../actions/index';
 
-export default () => {
-  return <div>List of Posts</div>;
-};
+class PostsIndex extends Component {
+  componentWillMount() {
+    console.log("CWM!!");
+
+    this.props.fetchPosts();
+
+  }
+
+  render() {
+    return (
+      <div>
+        List of Posts
+      </div>
+    );
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ fetchPosts }, dispatch);
+}
+
+export default connect(null, mapDispatchToProps)(PostsIndex);
