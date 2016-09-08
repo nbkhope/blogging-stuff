@@ -1,10 +1,23 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
 import { Link } from 'react-router';
 
 import { createPost } from '../actions/index';
 
 class PostsNew extends Component {
+  // in order to have access to context
+  static contextTypes = {
+    router: PropTypes.object
+  };
+
+  onSubmit(props) {
+    this.props.createPost(props)
+      .then(() => {
+        // after the blog post has been created successfully
+        this.context.router.push('/');
+      });
+  }
+
   render() {
     // use props injected by redux form
     const {
@@ -14,7 +27,7 @@ class PostsNew extends Component {
 
     return (
       <div>
-        <form onSubmit={handleSubmit(this.props.createPost)}>
+        <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
           <h3 className="text-danger">Make a new post!</h3>
           <div className={`form-group ${title.touched && title.invalid ? 'has-danger' : ''}`}>
             <label>Title</label>
@@ -41,7 +54,7 @@ class PostsNew extends Component {
           </div>
 
           <button type="submit" className="btn btn-primary">Create</button>
-          <Link to="/" className="btn btn-default">Create</Link>
+          <Link to="/" className="btn btn-danger">Cancel</Link>
         </form>
       </div>
     );
