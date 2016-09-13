@@ -6,10 +6,7 @@ import { Link } from 'react-router';
 
 class PostsIndex extends Component {
   componentWillMount() {
-    console.log("CWM!!");
-
     this.props.fetchPosts();
-
   }
 
   renderPosts() {
